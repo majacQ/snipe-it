@@ -16,8 +16,7 @@ return [
 ',
     'is_ad'				        => 'این سرور Active Directory است',
     'alerts'                	=> 'هشدار',
-    'alert_title'               => 'تنظیمات هشدار را به روز کنید
-',
+    'alert_title'               => 'Update Notification Settings',
     'alert_email'				=> 'ارسال هشدار به',
     'alert_email_help'    => 'آدرس‌های ایمیل یا لیست‌های توزیعی که می‌خواهید هشدارها به آنها ارسال شود، با کاما از هم جدا شده‌اند
 ',
@@ -29,8 +28,7 @@ return [
 ',
     'asset_ids'					=> 'ID حساب',
     'audit_interval'            => 'فاصله حسابرسی',
-    'audit_interval_help'       => 'اگر از شما خواسته می شود که به طور منظم دارایی های خود را به صورت فیزیکی ممیزی کنید، فاصله زمانی را به ماه هایی که استفاده می کنید وارد کنید. اگر این مقدار را به‌روزرسانی کنید، همه «تاریخ‌های حسابرسی بعدی» برای دارایی‌ها با تاریخ حسابرسی آینده.
-',
+    'audit_interval_help'       => 'If you are required to regularly physically audit your assets, enter the interval in months that you use. If you update this value, all of the "next audit dates" for assets with an upcoming audit date will be updated.',
     'audit_warning_days'        => 'آستانه هشدار حسابرسی',
     'audit_warning_days_help'   => 'چند روز پیش باید به شما هشدار می دهیم هنگامی که دارایی ها برای حسابرسی مورد نیاز است؟',
     'auto_increment_assets'		=> 'برچسب‌های دارایی با افزایش خودکار را ایجاد کنید
@@ -108,6 +106,9 @@ return [
 ',
     'laravel'                   => 'نسخه Laravel',
     'ldap'                      => 'LDAP',
+    'ldap_default_group'        => 'Default Permissions Group',
+    'ldap_default_group_info'   => 'Select a group to assign to newly synced users. Remember that a user takes on the permissions of the group they are assigned.',
+    'no_default_group'          => 'No Default Group',
     'ldap_help'                 => 'دایرکتوری فعال',
     'ldap_client_tls_key'       => 'کلید TLS مشتری LDAP
 ',
@@ -294,20 +295,21 @@ return [
     'show_images_in_email_help'   => 'اگر نصب Snipe-IT شما پشت VPN یا شبکه بسته است و کاربران خارج از شبکه نمی توانند تصاویر ارائه شده از این نصب را در ایمیل های خود بارگیری کنند، علامت این کادر را بردارید.
 ',
     'site_name'                 => 'نام سایت',
+    'integrations'               => 'Integrations',
     'slack'                     => 'Slack',
-    'slack_title'               => 'تنظیمات هشدار را به روز کنید
-',
-    'slack_help'                => 'تنظیمات Slack',
-    'slack_botname'             => 'پشت گوش فراخ Botname',
-    'slack_channel'             => 'اسلک کانال',
-    'slack_endpoint'            => 'نقطه پایان اسلک',
-    'slack_integration'         => 'تنظیمات اسلک',
-    'slack_integration_help'    => 'ادغام Slack اختیاری است، اما اگر می‌خواهید از آن استفاده کنید، نقطه پایانی و کانال مورد نیاز است. برای پیکربندی ادغام Slack، ابتدا باید <a href=":slack_link" target="_new" rel="noopener">یک وب هوک ورودی</a> در حساب Slack خود ایجاد کنید. روی دکمه <strong>Test Slack Integration</strong> کلیک کنید تا قبل از ذخیره کردن، صحت تنظیمات خود را تأیید کنید.
-',
-    'slack_integration_help_button'    => 'هنگامی که اطلاعات Slack خود را ذخیره کردید، یک دکمه تست ظاهر می شود.
-',
-    'slack_test_help'           => 'تست کنید که آیا ادغام Slack شما به درستی پیکربندی شده است یا خیر. ابتدا باید تنظیمات SLACK به روز شده خود را ذخیره کنید.
-',
+    'general_webhook'           => 'General Webhook',
+    'webhook'                   => ':app',
+    'webhook_presave'           => 'Test to Save',
+    'webhook_title'               => 'Update Webhook Settings',
+    'webhook_help'                => 'Integration settings',
+    'webhook_botname'             => ':app Botname',
+    'webhook_channel'             => ':app Channel',
+    'webhook_endpoint'            => ':app Endpoint',
+    'webhook_integration'         => ':app Settings',
+    'webhook_test'                 =>'Test :app integration',
+    'webhook_integration_help'    => ':app integration is optional, however the endpoint and channel are required if you wish to use it. To configure :app integration, you must first <a href=":webhook_link" target="_new" rel="noopener">create an incoming webhook</a> on your :app account. Click on the <strong>Test :app Integration</strong> button to confirm your settings are correct before saving. ',
+    'webhook_integration_help_button'    => 'Once you have saved your :app information, a test button will appear.',
+    'webhook_test_help'           => 'Test whether your :app integration is configured correctly. YOU MUST SAVE YOUR UPDATED :app SETTINGS FIRST.',
     'snipe_version'  			=> 'نسخه Snipe_IT',
     'support_footer'            => 'پشتیبانی از پیوندهای پاورقی
 ',
@@ -438,8 +440,7 @@ return [
     'localization_help' => 'زبان، نمایش تاریخ
 ',
     'notifications' => 'اعلان‌ ها',
-    'notifications_help' => 'هشدارهای ایمیل، تنظیمات ممیزی
-',
+    'notifications_help' => 'Email Alerts & Audit Settings',
     'asset_tags_help' => 'افزایش و پیشوندها
 ',
     'labels' => 'برچسب ها',

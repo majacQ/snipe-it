@@ -15,6 +15,7 @@ return array(
     'password_resets_sent'      => 'Odabranim korisnicima koji su aktivirani i imaju važeće adrese e-pošte poslat je link za resetovanje lozinke.',
     'password_reset_sent'       => 'Link za resetovanje lozinke je poslat na :email!',
     'user_has_no_email'         => 'Ovaj korisnik nema adresu e-pošte u svom profilu.',
+    'user_has_no_assets_assigned'   => 'Ovaj korisnik nema nijednu zaduženu imovinu',
 
 
     'success' => array(
@@ -59,4 +60,8 @@ return array(
         'invalidfiles' => 'Jedna ili više datoteka je prevelika ili je vrsta datoteke koja nije dopuštena. Dopuštene vrste datoteka su png, gif, jpg, doc, docx, pdf i txt.',
     ),
 
+    'inventorynotification' => array(
+        'error'   => 'Korisnik nema navedenu adresu e-pošte.',
+        'success' => 'Ovaj korisnik je obavešten o njegovom trenutnom inventaru.'
+    )
 );

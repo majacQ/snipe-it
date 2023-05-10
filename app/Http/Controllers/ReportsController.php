@@ -51,9 +51,8 @@ class ReportsController extends Controller
     public function getAccessoryReport()
     {
         $this->authorize('reports.view');
-        $accessories = Accessory::orderBy('created_at', 'DESC')->with('company')->get();
 
-        return view('reports/accessories', compact('accessories'));
+        return view('reports/accessories');
     }
 
     /**
@@ -285,7 +284,7 @@ class ReportsController extends Controller
 
                     $row = [
                         $actionlog->created_at,
-                        ($actionlog->user) ? e($actionlog->user->getFullNameAttribute()) : '',
+                        ($actionlog->admin) ? e($actionlog->admin->getFullNameAttribute()) : '',
                         $actionlog->present()->actionType(),
                         e($actionlog->itemType()),
                         ($actionlog->itemType() == 'user') ? $actionlog->filename : $item_name,
@@ -642,6 +641,9 @@ class ReportsController extends Controller
             if (($request->filled('created_start')) && ($request->filled('created_end'))) {
                 $assets->whereBetween('assets.created_at', [$request->input('created_start'), $request->input('created_end')]);
             }
+            if (($request->filled('checkout_date_start')) && ($request->filled('checkout_date_end'))) {
+                $assets->whereBetween('assets.last_checkout', [$request->input('checkout_date_start'), $request->input('checkout_date_end')]);
+            }
 
             if (($request->filled('expected_checkin_start')) && ($request->filled('expected_checkin_end'))) {
                 $assets->whereBetween('assets.expected_checkin', [$request->input('expected_checkin_start'), $request->input('expected_checkin_end')]);
@@ -763,7 +765,7 @@ class ReportsController extends Controller
                     if ($request->filled('username')) {
                         // Only works if we're checked out to a user, not anything else.
                         if ($asset->checkedOutToUser()) {
-                            $row[] = ($asset->assignedTo) ? $asset->assignedTo->username : '';
+                            $row[] = ($asset->assignedto) ? $asset->assignedto->username : '';
                         } else {
                             $row[] = ''; // Empty string if unassigned
                         }
@@ -772,7 +774,7 @@ class ReportsController extends Controller
                     if ($request->filled('employee_num')) {
                         // Only works if we're checked out to a user, not anything else.
                         if ($asset->checkedOutToUser()) {
-                            $row[] = ($asset->assignedTo) ? $asset->assignedTo->employee_num : '';
+                            $row[] = ($asset->assignedto) ? $asset->assignedto->employee_num : '';
                         } else {
                             $row[] = ''; // Empty string if unassigned
                         }
@@ -780,7 +782,7 @@ class ReportsController extends Controller
 
                     if ($request->filled('manager')) {
                         if ($asset->checkedOutToUser()) {
-                            $row[] = (($asset->assignedTo) && ($asset->assignedTo->manager)) ? $asset->assignedTo->manager->present()->fullName : '';
+                            $row[] = (($asset->assignedto) && ($asset->assignedto->manager)) ? $asset->assignedto->manager->present()->fullName : '';
                         } else {
                             $row[] = ''; // Empty string if unassigned
                         }
@@ -788,7 +790,7 @@ class ReportsController extends Controller
 
                     if ($request->filled('department')) {
                         if ($asset->checkedOutToUser()) {
-                            $row[] = (($asset->assignedTo) && ($asset->assignedTo->department)) ? $asset->assignedTo->department->name : '';
+                            $row[] = (($asset->assignedto) && ($asset->assignedto->department)) ? $asset->assignedto->department->name : '';
                         } else {
                             $row[] = ''; // Empty string if unassigned
                         }
@@ -796,7 +798,7 @@ class ReportsController extends Controller
 
                     if ($request->filled('title')) {
                         if ($asset->checkedOutToUser()) {
-                            $row[] = ($asset->assignedTo) ? $asset->assignedTo->jobtitle : '';
+                            $row[] = ($asset->assignedto) ? $asset->assignedto->jobtitle : '';
                         } else {
                             $row[] = ''; // Empty string if unassigned
                         }
@@ -899,12 +901,8 @@ class ReportsController extends Controller
     public function getAssetMaintenancesReport()
     {
         $this->authorize('reports.view');
-        // Grab all the improvements
-        $assetMaintenances = AssetMaintenance::with('asset', 'supplier', 'asset.company')
-                                              ->orderBy('created_at', 'DESC')
-                                              ->get();
 
-        return view('reports/asset_maintenances', compact('assetMaintenances'));
+        return view('reports.asset_maintenances');
     }
 
     /**
@@ -1025,7 +1023,11 @@ class ReportsController extends Controller
         if (is_null($acceptance->created_at)){
             return redirect()->route('reports/unaccepted_assets')->with('error', trans('general.bad_data'));
         } else {
-            $logItem = $assetItem->checkouts()->where('created_at', '=', $acceptance->created_at)->get()[0];
+            $logItem_res = $assetItem->checkouts()->where('created_at', '=', $acceptance->created_at)->get();
+            if ($logItem_res->isEmpty()){
+                return redirect()->route('reports/unaccepted_assets')->with('error', trans('general.bad_data'));
+            }
+            $logItem = $logItem_res[0];
         }
 
         if(!$assetItem->assignedTo->locale){
@@ -1110,13 +1112,17 @@ class ReportsController extends Controller
         $rows[] = implode(',', $header);
 
         foreach ($assetsForReport as $item) {
-            $row    = [ ];
-            $row[]  = str_replace(',', '', e($item['assetItem']->model->category->name));
-            $row[]  = str_replace(',', '', e($item['assetItem']->model->name));
-            $row[]  = str_replace(',', '', e($item['assetItem']->name));
-            $row[]  = str_replace(',', '', e($item['assetItem']->asset_tag));
-            $row[]  = str_replace(',', '', e(($item['acceptance']->assignedTo) ? $item['acceptance']->assignedTo->present()->name() : trans('admin/reports/general.deleted_user')));
-            $rows[] = implode(',', $row);
+
+            if ($item['assetItem'] != null){
+            
+                $row    = [ ];
+                $row[]  = str_replace(',', '', e($item['assetItem']->model->category->name));
+                $row[]  = str_replace(',', '', e($item['assetItem']->model->name));
+                $row[]  = str_replace(',', '', e($item['assetItem']->name));
+                $row[]  = str_replace(',', '', e($item['assetItem']->asset_tag));
+                $row[]  = str_replace(',', '', e(($item['acceptance']->assignedTo) ? $item['acceptance']->assignedTo->present()->name() : trans('admin/reports/general.deleted_user')));
+                $rows[] = implode(',', $row);
+            }
         }
 
         // spit out a csv

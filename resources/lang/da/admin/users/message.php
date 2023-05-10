@@ -13,8 +13,9 @@ return array(
     'user_deleted_warning'      => 'Denne bruger er blevet slettet. Du skal gendanne denne bruger for at redigere dem eller tildele dem nye aktiver.',
     'ldap_not_configured'        => 'LDAP-integration er ikke konfigureret til denne installation.',
     'password_resets_sent'      => 'De valgte brugere, der er aktiveret og har en gyldig e-mail-adresser, har fået tilsendt et link til nulstilling af adgangskode.',
-    'password_reset_sent'       => 'A password reset link has been sent to :email!',
-    'user_has_no_email'         => 'This user does not have an email address in their profile.',
+    'password_reset_sent'       => 'Et link til nulstilling af adgangskode er blevet sendt til :email!',
+    'user_has_no_email'         => 'Denne bruger har ikke en email-adresse i deres profil.',
+    'user_has_no_assets_assigned'   => 'Denne bruger er ikke tildelt nogen aktiver',
 
 
     'success' => array(
@@ -59,4 +60,8 @@ return array(
         'invalidfiles' => 'En eller flere af dine filer er for store eller er en filtype, der ikke er tilladt. Tilladte filtyper er png, gif, jpg, doc, docx, pdf og txt.',
     ),
 
+    'inventorynotification' => array(
+        'error'   => 'Denne bruger har ikke indsat en email.',
+        'success' => 'Brugeren er blevet underrettet om deres aktuelle beholdning.'
+    )
 );
